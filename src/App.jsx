@@ -1,8 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TaskItem from "./TaskItem.jsx";
 
+const STORAGE_KEY = "task-board:tasks";
+
+// localStorageから読み込む（無い・壊れている場合は空配列）
+function loadTasks() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return Array.isArray(saved) ? saved : [];
+  } catch {
+    return [];
+  }
+}
+
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(loadTasks);
+
+  // tasksが変わるたびに保存する
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+    } catch {
+      // 保存できない環境（容量超過・プライベートモード等）では無視する
+    }
+  }, [tasks]);
   const [title, setTitle] = useState("");
 
   const addTask = (e) => {
