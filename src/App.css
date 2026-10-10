@@ -103,3 +103,17 @@ h1 {
 .delete:hover {
   background: #fef2f2;
 }
+
+/* ドラッグで並べ替え */
+.task-list li {
+  cursor: grab;
+}
+
+.task-list li.dragging {
+  opacity: 0.4;
+}
+
+.task-list li.drag-over {
+  background: #eff6ff;
+  box-shadow: inset 0 2px 0 #2563eb;
+}

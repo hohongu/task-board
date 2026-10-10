@@ -37,6 +37,8 @@ function App() {
     }
   }, [tasks]);
   const [title, setTitle] = useState("");
+  const [dragId, setDragId] = useState(null); // ドラッグ中のタスクID
+  const [overId, setOverId] = useState(null); // ドロップ先候補のタスクID
 
   const addTask = (e) => {
     e.preventDefault();
@@ -56,6 +58,18 @@ function App() {
 
   const deleteTask = (id) => {
     setTasks(tasks.filter((t) => t.id !== id));
+  };
+
+  // ドラッグ中のタスクを targetId の位置に移動する
+  const moveTask = (fromId, targetId) => {
+    if (fromId === targetId) return;
+    const from = tasks.findIndex((t) => t.id === fromId);
+    const to = tasks.findIndex((t) => t.id === targetId);
+    if (from < 0 || to < 0) return;
+    const next = [...tasks];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    setTasks(next);
   };
 
   const doneCount = tasks.filter((t) => t.status === "done").length;
@@ -83,7 +97,32 @@ function App() {
           </p>
           <ul className="task-list">
             {tasks.map((task) => (
-              <li key={task.id}>
+              <li
+                key={task.id}
+                draggable
+                className={
+                  task.id === dragId
+                    ? "dragging"
+                    : task.id === overId
+                      ? "drag-over"
+                      : ""
+                }
+                onDragStart={() => setDragId(task.id)}
+                onDragOver={(e) => {
+                  e.preventDefault(); // ドロップを許可する
+                  if (dragId !== null) setOverId(task.id);
+                }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  moveTask(dragId, task.id);
+                  setDragId(null);
+                  setOverId(null);
+                }}
+                onDragEnd={() => {
+                  setDragId(null);
+                  setOverId(null);
+                }}
+              >
                 <TaskItem
                   task={task}
                   onToggle={toggleTask}
