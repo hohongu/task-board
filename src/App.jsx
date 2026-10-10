@@ -103,7 +103,12 @@ function App() {
 
   return (
     <main className="app">
-      <h1>タスクボード</h1>
+      <header className="app-header">
+        <h1>タスクボード</h1>
+        <p className="count">
+          （完了 {doneCount} / 全体 {tasks.length}）
+        </p>
+      </header>
 
       <form className="add-form" onSubmit={addTask}>
         <input
@@ -119,9 +124,6 @@ function App() {
         <p className="empty">タスクがありません</p>
       ) : (
         <>
-          <p className="count">
-            完了 {doneCount} / 全体 {tasks.length}
-          </p>
           <div className="columns">
             {COLUMNS.map((col) => (
               <section

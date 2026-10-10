@@ -14,8 +14,17 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* タイトル行（左: タイトル / 右端: 完了数・全体数） */
+.app-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
 h1 {
-  margin: 0 0 16px;
+  margin: 0;
   font-size: 24px;
 }
 
@@ -46,11 +55,17 @@ h1 {
   background: #1d4ed8;
 }
 
-.empty,
-.count {
+.empty {
   margin: 16px 0 0;
   font-size: 14px;
   color: #6b7280;
+}
+
+.count {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  white-space: nowrap;
 }
 
 /* A / B / C の3段組み */
