@@ -64,8 +64,39 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 10px 0;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 8px 0;
+}
+
+/* 項目間の区切り線（クリックしやすいよう高さを持たせ、線は::beforeで描く） */
+.divider {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 12px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  transform: translateY(-50%);
+  background: #e5e7eb;
+}
+
+.divider:hover::before {
+  background: #9ca3af;
+}
+
+.divider.thick::before {
+  height: 4px;
+  background: #6b7280;
 }
 
 .task label {

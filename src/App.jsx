@@ -56,6 +56,11 @@ function App() {
     );
   };
 
+  // 項目の下の区切り線を 通常 / 太線 で切り替える
+  const toggleLine = (id) => {
+    setTasks(tasks.map((t) => (t.id === id ? { ...t, thick: !t.thick } : t)));
+  };
+
   const deleteTask = (id) => {
     setTasks(tasks.filter((t) => t.id !== id));
   };
@@ -127,6 +132,7 @@ function App() {
                   task={task}
                   onToggle={toggleTask}
                   onDelete={deleteTask}
+                  onToggleLine={toggleLine}
                 />
               </li>
             ))}
