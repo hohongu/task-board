@@ -21,36 +21,15 @@ h1 {
 
 .add-form {
   display: flex;
-  flex-direction: column;
   gap: 8px;
 }
 
-.add-row {
-  display: flex;
-  gap: 8px;
-}
-
-.add-row input {
+.add-form input {
   flex: 1;
   padding: 8px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
   font-size: 16px;
-}
-
-/* 追加先（A / B / C）のラジオボタン */
-.column-select {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.column-select label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
 }
 
 .add-form button {
@@ -89,14 +68,8 @@ h1 {
   background: #f9fafb;
 }
 
-.column h2 {
-  margin: 0;
-  font-size: 16px;
-  color: #6b7280;
-}
-
 .task-list {
-  margin: 8px 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }

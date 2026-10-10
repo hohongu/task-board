@@ -41,7 +41,6 @@ function App() {
     }
   }, [tasks]);
   const [title, setTitle] = useState("");
-  const [column, setColumn] = useState("A"); // 追加先の列
   const [dragId, setDragId] = useState(null); // ドラッグ中のタスクID
   const [overId, setOverId] = useState(null); // ドロップ先候補のタスクID
 
@@ -51,7 +50,7 @@ function App() {
     if (!text) return;
     setTasks([
       ...tasks,
-      { id: Date.now(), title: text, status: "normal", column },
+      { id: Date.now(), title: text, status: "normal", column: "A" }, // まずはAの列に追加する
     ]);
     setTitle("");
   };
@@ -107,30 +106,13 @@ function App() {
       <h1>タスクボード</h1>
 
       <form className="add-form" onSubmit={addTask}>
-        <div className="add-row">
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="新しいタスクを入力"
-          />
-          <button type="submit">追加</button>
-        </div>
-        <div className="column-select" role="radiogroup" aria-label="追加先">
-          <span>追加先:</span>
-          {COLUMNS.map((col) => (
-            <label key={col}>
-              <input
-                type="radio"
-                name="column"
-                value={col}
-                checked={column === col}
-                onChange={() => setColumn(col)}
-              />
-              {col}
-            </label>
-          ))}
-        </div>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="新しいタスクを入力"
+        />
+        <button type="submit">追加</button>
       </form>
 
       {tasks.length === 0 ? (
@@ -152,7 +134,6 @@ function App() {
                   endDrag();
                 }}
               >
-                <h2>{col}</h2>
                 <ul className="task-list">
                   {tasks
                     .filter((task) => task.column === col)
