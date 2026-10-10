@@ -3,11 +3,23 @@ import TaskItem from "./TaskItem.jsx";
 
 const STORAGE_KEY = "task-board:tasks";
 
+// タスクの状態。押下するたびに 通常 → グレー(done) → ボールド(bold) → 通常 と切り替わる
+const STATUS_ORDER = ["normal", "done", "bold"];
+
 // localStorageから読み込む（無い・壊れている場合は空配列）
 function loadTasks() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    return Array.isArray(saved) ? saved : [];
+    if (!Array.isArray(saved)) return [];
+    // 旧形式（done: true/false）のデータを status に変換する
+    return saved.map(({ done, ...task }) => ({
+      ...task,
+      status: STATUS_ORDER.includes(task.status)
+        ? task.status
+        : done
+          ? "done"
+          : "normal",
+    }));
   } catch {
     return [];
   }
@@ -30,19 +42,23 @@ function App() {
     e.preventDefault();
     const text = title.trim();
     if (!text) return;
-    setTasks([...tasks, { id: Date.now(), title: text, done: false }]);
+    setTasks([...tasks, { id: Date.now(), title: text, status: "normal" }]);
     setTitle("");
   };
 
   const toggleTask = (id) => {
-    setTasks(tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+    const next = (status) =>
+      STATUS_ORDER[(STATUS_ORDER.indexOf(status) + 1) % STATUS_ORDER.length];
+    setTasks(
+      tasks.map((t) => (t.id === id ? { ...t, status: next(t.status) } : t))
+    );
   };
 
   const deleteTask = (id) => {
     setTasks(tasks.filter((t) => t.id !== id));
   };
 
-  const doneCount = tasks.filter((t) => t.done).length;
+  const doneCount = tasks.filter((t) => t.status === "done").length;
 
   return (
     <main className="app">

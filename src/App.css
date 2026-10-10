@@ -86,6 +86,11 @@ h1 {
   text-decoration: line-through;
 }
 
+/* ボールド表示 */
+.task.bold span {
+  font-weight: 700;
+}
+
 .delete {
   padding: 4px 10px;
   border: 1px solid #fca5a5;

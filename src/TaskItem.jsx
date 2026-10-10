@@ -1,11 +1,11 @@
 // タスク1件分の表示
 function TaskItem({ task, onToggle, onDelete }) {
   return (
-    <div className={task.done ? "task done" : "task"}>
+    <div className={`task ${task.status}`}>
       <label>
         <input
           type="checkbox"
-          checked={task.done}
+          checked={task.status === "done"}
           onChange={() => onToggle(task.id)}
         />
         <span>{task.title}</span>
