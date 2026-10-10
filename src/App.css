@@ -64,7 +64,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 8px 0;
+  padding: 4px 0;
 }
 
 /* 項目間の区切り線（クリックしやすいよう高さを持たせ、線は::beforeで描く） */
