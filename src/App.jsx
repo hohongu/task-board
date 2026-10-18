@@ -6,8 +6,8 @@ const STORAGE_KEY = "task-board:tasks";
 // タスクの状態。押下するたびに 通常 → グレー(done) → ボールド(bold) → 通常 と切り替わる
 const STATUS_ORDER = ["normal", "done", "bold"];
 
-// 3段組みの列（左から順に表示する）
-const COLUMNS = ["A", "B", "C"];
+// 4段組みの列（左から順に表示する）
+const COLUMNS = ["A", "B", "C", "D"];
 
 // localStorageから読み込む（無い・壊れている場合は空配列）
 function loadTasks() {
