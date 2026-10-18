@@ -6,7 +6,7 @@ body {
 }
 
 .app {
-  max-width: 1300px;
+  max-width: 1189px;
   margin: 40px auto;
   padding: 24px;
   background: #fff;
@@ -68,7 +68,7 @@ h1 {
   white-space: nowrap;
 }
 
-/* A / B / C / D の4段組み（1段の幅は約301px = 従来の3段組み時の約1.1倍） */
+/* A / B / C / D の4段組み（1段の幅は約273px = 従来の3段組み時と同じ） */
 .columns {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
