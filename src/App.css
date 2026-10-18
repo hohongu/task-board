@@ -153,11 +153,12 @@ h1 {
 }
 
 .delete {
-  padding: 4px 10px;
+  padding: 2px 6px;
   border: 1px solid #fca5a5;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fff;
   color: #dc2626;
+  font-size: 12px;
   cursor: pointer;
 }
 
