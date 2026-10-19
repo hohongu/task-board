@@ -147,9 +147,19 @@ h1 {
   text-decoration: line-through;
 }
 
-/* ボールド表示 */
-.task.bold span {
+/* 黒の太字 / 青の太字 / 赤の太字 */
+.task.bold span,
+.task.blue span,
+.task.red span {
   font-weight: 700;
+}
+
+.task.blue {
+  color: #2563eb;
+}
+
+.task.red {
+  color: #dc2626;
 }
 
 .delete {

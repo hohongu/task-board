@@ -3,8 +3,9 @@ import TaskItem from "./TaskItem.jsx";
 
 const STORAGE_KEY = "task-board:tasks";
 
-// タスクの状態。押下するたびに 通常 → グレー(done) → ボールド(bold) → 通常 と切り替わる
-const STATUS_ORDER = ["normal", "done", "bold"];
+// タスクの状態。押下するたびに
+// 黒の普通(normal) → 黒の太字(bold) → 青の太字(blue) → 赤の太字(red) → 取り消し線+グレー(done) → 黒の普通 と切り替わる
+const STATUS_ORDER = ["normal", "bold", "blue", "red", "done"];
 
 // 4段組みの列（左から順に表示する）
 const COLUMNS = ["A", "B", "C", "D"];
