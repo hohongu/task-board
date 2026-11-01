@@ -35,12 +35,15 @@ h1 {
   grid-column: 2;
   width: calc(150% - 36px);
   transform: translateX(calc(-33.333% + 24px));
+  justify-content: flex-end;
   min-width: 0;
   gap: 8px;
 }
 
 .add-form input {
-  flex: 1;
+  box-sizing: border-box;
+  flex: 0 0 75px;
+  width: 75px;
   min-width: 0;
   padding: 8px 12px;
   border: 1px solid #d1d5db;
