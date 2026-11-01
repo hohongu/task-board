@@ -42,8 +42,8 @@ h1 {
 
 .add-form input {
   box-sizing: border-box;
-  flex: 0 0 80px;
-  width: 80px;
+  flex: 0 0 250px;
+  width: 250px;
   min-width: 0;
   padding: 8px 12px;
   border: 1px solid #d1d5db;
