@@ -126,31 +126,28 @@ function App() {
       ) : (
         <>
           <div className="columns">
-            {COLUMNS.map((col) => (
-              <section
-                key={col}
-                className="column"
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  if (dragId !== null && !e.target.closest("li")) {
-                    setOverId(null);
-                    setOverColumn(col);
-                  }
-                }}
-                onDrop={(e) => {
-                  e.preventDefault();
-                  if (dragId !== null) moveTaskToColumn(dragId, col);
-                  endDrag();
-                }}
-              >
-                <ul
-                  className={
-                    overColumn === col ? "task-list drop-at-end" : "task-list"
-                  }
+            {COLUMNS.map((col) => {
+              const columnTasks = tasks.filter((task) => task.column === col);
+
+              return (
+                <section
+                  key={col}
+                  className="column"
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    if (dragId !== null && !e.target.closest("li")) {
+                      setOverId(null);
+                      setOverColumn(col);
+                    }
+                  }}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    if (dragId !== null) moveTaskToColumn(dragId, col);
+                    endDrag();
+                  }}
                 >
-                  {tasks
-                    .filter((task) => task.column === col)
-                    .map((task) => (
+                  <ul className="task-list">
+                    {columnTasks.map((task) => (
                       <li
                         key={task.id}
                         draggable
@@ -193,9 +190,31 @@ function App() {
                         />
                       </li>
                     ))}
-                </ul>
-              </section>
-            ))}
+                    {dragId !== null && (
+                      <li
+                        className={
+                          overColumn === col
+                            ? "drop-zone active"
+                            : "drop-zone"
+                        }
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setOverId(null);
+                          setOverColumn(col);
+                        }}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          moveTaskToColumn(dragId, col);
+                          endDrag();
+                        }}
+                      />
+                    )}
+                  </ul>
+                </section>
+              );
+            })}
           </div>
         </>
       )}
