@@ -44,6 +44,8 @@ function App() {
   const [title, setTitle] = useState("");
   const [dragId, setDragId] = useState(null); // ドラッグ中のタスクID
   const [overId, setOverId] = useState(null); // ドロップ先候補のタスクID
+  const [overPosition, setOverPosition] = useState(null); // 挿入位置
+  const [overColumn, setOverColumn] = useState(null); // 列の末尾へのドロップ候補
 
   const addTask = (e) => {
     e.preventDefault();
@@ -73,15 +75,17 @@ function App() {
     setTasks(tasks.filter((t) => t.id !== id));
   };
 
-  // ドラッグ中のタスクを targetId の位置に移動する（別の列なら列も移る）
-  const moveTask = (fromId, targetId) => {
+  // ドラッグ中のタスクを targetId の前後に移動する（別の列なら列も移る）
+  const moveTask = (fromId, targetId, position) => {
     if (fromId === targetId) return;
     const from = tasks.findIndex((t) => t.id === fromId);
     const to = tasks.findIndex((t) => t.id === targetId);
     if (from < 0 || to < 0) return;
     const next = [...tasks];
     const [moved] = next.splice(from, 1);
-    next.splice(to, 0, { ...moved, column: tasks[to].column });
+    const targetIndex = next.findIndex((t) => t.id === targetId);
+    const insertIndex = targetIndex + (position === "after" ? 1 : 0);
+    next.splice(insertIndex, 0, { ...moved, column: tasks[to].column });
     setTasks(next);
   };
 
@@ -98,6 +102,8 @@ function App() {
   const endDrag = () => {
     setDragId(null);
     setOverId(null);
+    setOverPosition(null);
+    setOverColumn(null);
   };
 
   return (
@@ -124,14 +130,24 @@ function App() {
               <section
                 key={col}
                 className="column"
-                onDragOver={(e) => e.preventDefault()}
+                onDragOver={(e) => {
+                  e.preventDefault();
+                  if (dragId !== null && !e.target.closest("li")) {
+                    setOverId(null);
+                    setOverColumn(col);
+                  }
+                }}
                 onDrop={(e) => {
                   e.preventDefault();
                   if (dragId !== null) moveTaskToColumn(dragId, col);
                   endDrag();
                 }}
               >
-                <ul className="task-list">
+                <ul
+                  className={
+                    overColumn === col ? "task-list drop-at-end" : "task-list"
+                  }
+                >
                   {tasks
                     .filter((task) => task.column === col)
                     .map((task) => (
@@ -142,18 +158,29 @@ function App() {
                           task.id === dragId
                             ? "dragging"
                             : task.id === overId
-                              ? "drag-over"
+                              ? `drag-over ${overPosition}`
                               : ""
                         }
                         onDragStart={() => setDragId(task.id)}
                         onDragOver={(e) => {
                           e.preventDefault(); // ドロップを許可する
-                          if (dragId !== null) setOverId(task.id);
+                          if (dragId !== null) {
+                            const bounds = e.currentTarget.getBoundingClientRect();
+                            setOverId(task.id);
+                            setOverPosition(
+                              e.clientY < bounds.top + bounds.height / 2
+                                ? "before"
+                                : "after"
+                            );
+                            setOverColumn(null);
+                          }
                         }}
                         onDrop={(e) => {
                           e.preventDefault();
                           e.stopPropagation(); // 列側のドロップ処理を動かさない
-                          if (dragId !== null) moveTask(dragId, task.id);
+                          if (dragId !== null) {
+                            moveTask(dragId, task.id, overPosition);
+                          }
                           endDrag();
                         }}
                         onDragEnd={endDrag}
