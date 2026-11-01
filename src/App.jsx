@@ -9,13 +9,15 @@ const STATUS_ORDER = ["normal", "bold", "blue", "red", "done"];
 
 // 4段組みの列（左から順に表示する）
 const COLUMNS = ["A", "B", "C", "D"];
+const PAGES = [1, 2, 3];
+const PAGE_LABELS = ["①", "②", "③"];
 
 // localStorageから読み込む（無い・壊れている場合は空配列）
 function loadTasks() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (!Array.isArray(saved)) return [];
-    // 旧形式のデータを補完する（done → status、column が無ければ A）
+    // 旧形式のデータを補完する（done → status、column/page が無ければ既定値）
     return saved.map(({ done, ...task }) => ({
       ...task,
       status: STATUS_ORDER.includes(task.status)
@@ -24,6 +26,7 @@ function loadTasks() {
           ? "done"
           : "normal",
       column: COLUMNS.includes(task.column) ? task.column : "A",
+      page: PAGES.includes(task.page) ? task.page : 1,
     }));
   } catch {
     return [];
@@ -42,6 +45,7 @@ function App() {
     }
   }, [tasks]);
   const [title, setTitle] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [dragId, setDragId] = useState(null); // ドラッグ中のタスクID
   const [overId, setOverId] = useState(null); // ドロップ先候補のタスクID
   const [overPosition, setOverPosition] = useState(null); // 挿入位置
@@ -53,7 +57,13 @@ function App() {
     if (!text) return;
     setTasks([
       ...tasks,
-      { id: Date.now(), title: text, status: "normal", column: "A" }, // まずはAの列に追加する
+      {
+        id: Date.now(),
+        title: text,
+        status: "normal",
+        column: "A",
+        page: currentPage,
+      },
     ]);
     setTitle("");
   };
@@ -106,6 +116,8 @@ function App() {
     setOverColumn(null);
   };
 
+  const pageTasks = tasks.filter((task) => task.page === currentPage);
+
   return (
     <main className="app">
       <header className="app-header">
@@ -119,15 +131,35 @@ function App() {
           />
           <button type="submit">追加</button>
         </form>
+        <nav className="page-selector" aria-label="タスクページ">
+          {PAGES.map((page, index) => (
+            <button
+              key={page}
+              type="button"
+              className={
+                currentPage === page
+                  ? "page-button active"
+                  : "page-button"
+              }
+              aria-label={`${page}ページ`}
+              aria-pressed={currentPage === page}
+              onClick={() => setCurrentPage(page)}
+            >
+              {PAGE_LABELS[index]}
+            </button>
+          ))}
+        </nav>
       </header>
 
-      {tasks.length === 0 ? (
+      {pageTasks.length === 0 ? (
         <p className="empty">タスクがありません</p>
       ) : (
         <>
           <div className="columns">
             {COLUMNS.map((col) => {
-              const columnTasks = tasks.filter((task) => task.column === col);
+              const columnTasks = pageTasks.filter(
+                (task) => task.column === col
+              );
 
               return (
                 <section

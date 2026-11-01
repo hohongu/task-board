@@ -67,6 +67,36 @@ h1 {
   background: #1d4ed8;
 }
 
+.page-selector {
+  display: flex;
+  grid-column: 3 / 5;
+  justify-self: end;
+  gap: 8px;
+}
+
+.page-button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #e5e7eb;
+  color: #4b5563;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.page-button:hover {
+  background: #d1d5db;
+}
+
+.page-button.active,
+.page-button.active:hover {
+  border-color: #2563eb;
+  background: #2563eb;
+  color: #fff;
+}
+
 .empty {
   margin: 16px 0 0;
   font-size: 14px;
