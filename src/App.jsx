@@ -104,17 +104,16 @@ function App() {
     <main className="app">
       <header className="app-header">
         <h1>タスクボード</h1>
+        <form className="add-form" onSubmit={addTask}>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="新しいタスクを入力"
+          />
+          <button type="submit">追加</button>
+        </form>
       </header>
-
-      <form className="add-form" onSubmit={addTask}>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="新しいタスクを入力"
-        />
-        <button type="submit">追加</button>
-      </form>
 
       {tasks.length === 0 ? (
         <p className="empty">タスクがありません</p>

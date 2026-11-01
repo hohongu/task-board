@@ -14,22 +14,24 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* タイトル行（左: タイトル / 右端: 完了数・全体数） */
+/* タイトルとタスク入力欄を同じ行に表示 */
 .app-header {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
+  align-items: center;
+  gap: 24px;
   margin-bottom: 16px;
 }
 
 h1 {
   margin: 0;
   font-size: 24px;
+  white-space: nowrap;
 }
 
 .add-form {
   display: flex;
+  flex: 1;
+  min-width: 0;
   gap: 8px;
 }
 
