@@ -16,9 +16,10 @@ body {
 
 /* タイトルとタスク入力欄を同じ行に表示 */
 .app-header {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: center;
-  gap: 24px;
+  gap: 16px;
   margin-bottom: 16px;
 }
 
@@ -37,6 +38,7 @@ h1 {
 
 .add-form input {
   flex: 1;
+  min-width: 0;
   padding: 8px 12px;
   border: 1px solid #d1d5db;
   border-radius: 6px;
