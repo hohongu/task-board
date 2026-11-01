@@ -61,13 +61,6 @@ h1 {
   color: #6b7280;
 }
 
-.count {
-  margin: 0;
-  font-size: 14px;
-  color: #6b7280;
-  white-space: nowrap;
-}
-
 /* A / B / C / D の4段組み（1段の幅は約273px = 従来の3段組み時と同じ） */
 .columns {
   display: grid;

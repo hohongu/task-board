@@ -100,15 +100,10 @@ function App() {
     setOverId(null);
   };
 
-  const doneCount = tasks.filter((t) => t.status === "done").length;
-
   return (
     <main className="app">
       <header className="app-header">
         <h1>タスクボード</h1>
-        <p className="count">
-          （完了 {doneCount} / 全体 {tasks.length}）
-        </p>
       </header>
 
       <form className="add-form" onSubmit={addTask}>
